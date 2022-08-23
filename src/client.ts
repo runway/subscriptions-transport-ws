@@ -193,6 +193,10 @@ export class SubscriptionClient {
       this.client.onclose = null;
       this.client.onerror = null;
       this.client.onmessage = null;
+      Object.values(this.operations).forEach((op) => {
+        op.handler([new Error("connection closed")], null);
+      });
+
       this.client = null;
       this.eventEmitter.emit("disconnected");
 
